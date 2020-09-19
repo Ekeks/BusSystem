@@ -7,6 +7,8 @@ import 'package:shop_app/screens/otp/otp_screen.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
+String  pNumber; // for Otp page
+
 class CompleteProfileForm extends StatefulWidget {
   @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
@@ -17,7 +19,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final List<String> errors = [];
   String firstName;
   String lastName;
-  String phoneNumber;
+  String phoneNumber; // you may need to parse to an integer for database purposes
   String address;
 
   void addError({String error}) {
@@ -90,32 +92,37 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     );
   }
 
-  TextFormField buildPhoneNumberFormField() {
+  TextFormField buildPhoneNumberFormField(){
     return TextFormField(
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue,
+      onSaved: (newValue) => phoneNumber = newValue = pNumber,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
+        } else if (value.length != 10) {
+          removeError(error: kInvalidPhoneNumberError);
         }
-        return null;
+        phoneNumber = value;
       },
       validator: (value) {
         if (value.isEmpty) {
           addError(error: kPhoneNumberNullError);
           return "";
+        } else if (value.length != 10) {
+          addError(error: kInvalidPhoneNumberError);
+          return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Phone Number",
+        labelText: "Phone",
         hintText: "Enter your phone number",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
-      ),
-    );
+      )
+      );
   }
 
   TextFormField buildLastNameFormField() {
