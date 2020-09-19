@@ -18,15 +18,17 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Register Account", style: headingStyle),
+                Text("Register Account", 
+                style: headingStyle,),
                 Text(
                   "Complete your details or continue \nwith social media",
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                Row(
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SocalCard(
@@ -42,7 +44,7 @@ class Body extends StatelessWidget {
                       press: () {},
                     ),
                   ],
-                ),
+                ),*/
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
                   'By continuing your confirm that you agree \nwith our Term and Condition',

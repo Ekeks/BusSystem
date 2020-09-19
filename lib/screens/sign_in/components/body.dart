@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/no_account_text.dart';
 import 'package:shop_app/components/socal_card.dart';
+import '../../../constants.dart';
 import '../../../size_config.dart';
 import 'sign_form.dart';
 
@@ -20,19 +21,22 @@ class Body extends StatelessWidget {
                 Text(
                   "Welcome",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: kPrimaryColor,
                     fontSize: getProportionateScreenWidth(28),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "Sign in with your email and password  \nor continue with social media",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                Row(
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SocalCard(
@@ -48,7 +52,7 @@ class Body extends StatelessWidget {
                       press: () {},
                     ),
                   ],
-                ),
+                ),*/
                 SizedBox(height: getProportionateScreenHeight(20)),
                 NoAccountText(),
               ],
