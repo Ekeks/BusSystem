@@ -7,6 +7,9 @@ import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../constants.dart';
+import '../../../constants.dart';
+import '../../../constants.dart';
+import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class SignForm extends StatefulWidget {
@@ -56,14 +59,19 @@ class _SignFormState extends State<SignForm> {
                   });
                 },
               ),
-              Text("Remember me"),
+              Text("Remember me",
+                style: TextStyle(
+                  color:Colors.black),
+                  ),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
                     context, ForgotPasswordScreen.routeName),
                 child: Text(
                   "Forgot Password",
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.black),
                 ),
               )
             ],
@@ -141,8 +149,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
-        fillColor: kPrimaryColor,
+        labelText: "Email", 
+        fillColor: kTextColor,
         hintText: "Enter your email",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
