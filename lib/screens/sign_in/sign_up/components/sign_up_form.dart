@@ -6,6 +6,11 @@ import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
 import '../../../../constants.dart';
+import '../../../../constants.dart';
+import '../../../../constants.dart';
+import '../../../../constants.dart';
+import '../../../../constants.dart';
+import '../../../../size_config.dart';
 import '../../../../size_config.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -19,6 +24,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String password;
   String conform_password;
   bool remember = false;
+  String phoneNumber; // you may want to change datatype to integer later ;)
+  
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -43,6 +50,8 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
+          buildPhoneNumberFormField(),
+          SizedBox(height: getProportionateScreenHeight(30),),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
@@ -160,5 +169,38 @@ class _SignUpFormState extends State<SignUpForm> {
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
+  }
+
+  TextFormField buildPhoneNumberFormField(){
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phoneNumber = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        } else if (value.length != 10) {
+          removeError(error: kInvalidPhoneNumberError);
+        }
+        phoneNumber = value;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        } else if (value.length != 10) {
+          addError(error: kInvalidPhoneNumberError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Phone",
+        hintText: "Enter your phone number",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
+      )
+      );
   }
 }

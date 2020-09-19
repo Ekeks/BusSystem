@@ -29,6 +29,8 @@ class SplashContent extends StatelessWidget {
         Text(
           text,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.black),
         ),
         Spacer(flex: 2),
         Image.asset(
