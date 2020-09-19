@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/screens/complete_profile/components/complete_profile_form.dart';
 import 'package:shop_app/size_config.dart';
-
+import '../../complete_profile/components/complete_profile_form.dart';
 import 'otp_form.dart';
 
 class Body extends StatelessWidget {
@@ -20,7 +21,11 @@ class Body extends StatelessWidget {
                 "OTP Verification",
                 style: headingStyle,
               ),
-              Text("We sent your code to +1 898 860 ***"),
+              Text(
+                "We sent your code to $pNumber", //work on display number later
+                style: TextStyle(
+                  color: Colors.black),
+                  ), 
               buildTimer(),
               OtpForm(),
               SizedBox(height: SizeConfig.screenHeight * 0.1),
@@ -30,7 +35,10 @@ class Body extends StatelessWidget {
                 },
                 child: Text(
                   "Resend OTP Code",
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.black),
+                    
                 ),
               )
             ],
@@ -44,7 +52,11 @@ class Body extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("This code will expired in "),
+        Text(
+          "This code will expired in ",
+          style: TextStyle(
+            color: Colors.black),
+            ),
         TweenAnimationBuilder(
           tween: Tween(begin: 30.0, end: 0.0),
           duration: Duration(seconds: 30),
