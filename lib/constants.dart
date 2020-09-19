@@ -16,7 +16,7 @@ const kAnimationDuration = Duration(milliseconds: 200);
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
   fontWeight: FontWeight.bold,
-  color: Colors.black,
+  color: kPrimaryColor,
   height: 1.5,
 );
 
@@ -31,6 +31,7 @@ const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
 const String kAddressNullError = "Please Enter your address";
+const String kInvalidPhoneNumberError = "Phone number invalid";
 
 final otpInputDecoration = InputDecoration(
   contentPadding:
