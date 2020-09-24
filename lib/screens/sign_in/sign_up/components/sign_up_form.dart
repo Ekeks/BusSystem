@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
@@ -13,14 +14,18 @@ class SignUpForm extends StatefulWidget {
   _SignUpFormState createState() => _SignUpFormState();
 }
 
+enum FormType { signup }
+
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+
+  FormType _formType = FormType.signup;
   String email;
   String password;
-  String conform_password;
+  String confirm_password;
   bool remember = false;
   String phoneNumber; // you may want to change datatype to integer later ;)
-  
+
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -37,6 +42,31 @@ class _SignUpFormState extends State<SignUpForm> {
       });
   }
 
+  bool validateAndSave() {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        if (_formType == FormType.signup) {
+          AuthResult user = await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: email, password: password);
+          print('Registered user: $user');
+        }
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => LoginSuccessScreen()));
+      } catch (e) {
+        print('Error: $e');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -46,7 +76,9 @@ class _SignUpFormState extends State<SignUpForm> {
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumberFormField(),
-          SizedBox(height: getProportionateScreenHeight(30),),
+          SizedBox(
+            height: getProportionateScreenHeight(30),
+          ),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
@@ -70,14 +102,14 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildConformPassFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
+      onSaved: (newValue) => confirm_password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
+        } else if (value.isNotEmpty && password == confirm_password) {
           removeError(error: kMatchPassError);
         }
-        conform_password = value;
+        confirm_password = value;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -166,36 +198,35 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextFormField buildPhoneNumberFormField(){
+  TextFormField buildPhoneNumberFormField() {
     return TextFormField(
-      keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPhoneNumberNullError);
-        } else if (value.length != 10) {
-          removeError(error: kInvalidPhoneNumberError);
-        }
-        phoneNumber = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPhoneNumberNullError);
-          return "";
-        } else if (value.length != 10) {
-          addError(error: kInvalidPhoneNumberError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Phone",
-        hintText: "Enter your phone number",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
-      )
-      );
+        keyboardType: TextInputType.phone,
+        onSaved: (newValue) => phoneNumber = newValue,
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            removeError(error: kPhoneNumberNullError);
+          } else if (value.length != 10) {
+            removeError(error: kInvalidPhoneNumberError);
+          }
+          phoneNumber = value;
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            addError(error: kPhoneNumberNullError);
+            return "";
+          } else if (value.length != 10) {
+            addError(error: kInvalidPhoneNumberError);
+            return "";
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: "Phone",
+          hintText: "Enter your phone number",
+          // If  you are using latest version of flutter then lable text and hint text shown like this
+          // if you r using flutter less then 1.20.* then maybe this is not working properly
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
+        ));
   }
 }

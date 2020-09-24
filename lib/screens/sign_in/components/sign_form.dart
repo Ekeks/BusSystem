@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -13,10 +14,14 @@ class SignForm extends StatefulWidget {
   _SignFormState createState() => _SignFormState();
 }
 
+enum FormType { login }
+
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
+
   String email;
   String password;
+  FormType _formType = FormType.login;
   bool remember = false;
   final List<String> errors = [];
 
@@ -32,6 +37,33 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  bool validateAndSave() {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        if (_formType == FormType.login) {
+          AuthResult user = (await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: email, password: password));
+          print('Signed in: $user');
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => LoginSuccessScreen()));
+        }
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => LoginSuccessScreen()));
+      } catch (e) {
+        print('Error: $e');
+      }
+    }
   }
 
   @override
@@ -55,10 +87,10 @@ class _SignFormState extends State<SignForm> {
                   });
                 },
               ),
-              Text("Remember me",
-                style: TextStyle(
-                  color:Colors.black),
-                  ),
+              Text(
+                "Remember me",
+                style: TextStyle(color: Colors.black),
+              ),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
@@ -66,8 +98,8 @@ class _SignFormState extends State<SignForm> {
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.black),
+                      decoration: TextDecoration.underline,
+                      color: Colors.black),
                 ),
               )
             ],
@@ -145,7 +177,7 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email", 
+        labelText: "Email",
         fillColor: kTextColor,
         hintText: "Enter your email",
         // If  you are using latest version of flutter then lable text and hint text shown like this

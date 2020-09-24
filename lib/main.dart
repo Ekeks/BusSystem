@@ -22,3 +22,15 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class AuthService {
+  var onAuthStateChanged;
+
+  sinInWithEmailAndPassword(String email, String password) {}
+
+  createUserWithEmailAndPassword(String email, String password) {}
+
+  registerWithEmailAndPassword(String email, String password) {}
+
+  registerUserWithEmailAndPassword(String email, String password) {}
+}
