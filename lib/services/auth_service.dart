@@ -2,22 +2,35 @@ import 'package:shop_app/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shop_app/notifier/auth_notifier.dart';
 
-//signing in
-signIn(User user, AuthNotifier authNotifier) async {
-  AuthResult authResult = await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: user.email, password: user.password)
-      .catchError((error) => print(error.code));
+// //signing in
+// signIn(User user, AuthNotifier authNotifier) async {
+//   AuthResult authResult = await FirebaseAuth.instance
+//       .signInWithEmailAndPassword(email: user.email, password: user.password)
+//       .catchError((error) => print(error.code));
 
-  if (authResult != null) {
-    FirebaseUser firebaseUser = authResult.user;
+//   if (authResult != null) {
+//     FirebaseUser firebaseUser = authResult.user;
 
-    if (firebaseUser != null) {
-      print("Log In : $firebaseUser");
-      authNotifier.setUser(firebaseUser);
-    }
+//     if (firebaseUser != null) {
+//       print("Log In : $firebaseUser");
+//       authNotifier.setUser(firebaseUser);
+//     }
+//   }
+// }
+
+
+signIn(User user, AuthNotifier authNotifier) async{
+  try{
+  AuthResult authResult = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user.email, password: user.password);
+  
+}
+on AuthException catch (e) {
+  if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
   }
 }
-
 //signing up
 signup(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance
@@ -50,4 +63,5 @@ initializeCurrentUser(AuthNotifier authNotifier) async {
     print(firebaseUser);
     authNotifier.setUser(firebaseUser);
   }
+}
 }

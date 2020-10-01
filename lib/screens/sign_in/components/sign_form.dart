@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
@@ -24,7 +25,7 @@ class _SignFormState extends State<SignForm> {
   FormType _formType = FormType.login;
   bool remember = false;
   final List<String> errors = [];
-
+  FirebaseUser user;
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -49,21 +50,29 @@ class _SignFormState extends State<SignForm> {
   }
 
   void validateAndSubmit() async {
+    //FirebaseUser user;
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
           AuthResult user = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: email, password: password));
           print('Signed in: $user');
+        //   if (user ==null){
+
+        //     print("Cannot sign in ");
+        // }
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => LoginSuccessScreen()));
+              builder: (BuildContext context) => CompleteProfileScreen()));
         }
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => LoginSuccessScreen()));
+        // Navigator.of(context).push(MaterialPageRoute(
+        //     builder: (BuildContext context) => LoginSuccessScreen()));
       } catch (e) {
         print('Error: $e');
+
       }
+      
     }
+    
   }
 
   @override
@@ -111,8 +120,12 @@ class _SignFormState extends State<SignForm> {
             press: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
+                validateAndSubmit();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                if(user==null){
+                  print('Error signing in');
+                }
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
           ),
