@@ -55,7 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.signup) {
-          AuthResult user = await FirebaseAuth.instance
+          UserCredential user = await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
           print('Registered user: $user');
         }

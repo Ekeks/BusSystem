@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "262856464817",
-    "firebase_url": "https://eddie-k-9b8cc.firebaseio.com",
-    "project_id": "eddie-k-9b8cc",
-    "storage_bucket": "eddie-k-9b8cc.appspot.com"
+    "project_number": "968907904872",
+    "firebase_url": "https://eddiekbus.firebaseio.com",
+    "project_id": "eddiekbus",
+    "storage_bucket": "eddiekbus.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:262856464817:android:677476fb788d0b54584590",
+        "mobilesdk_app_id": "1:968907904872:android:7fcf643acabb9a812468dd",
         "android_client_info": {
           "package_name": "com.example.eddie_k"
         }
       },
       "oauth_client": [
         {
-          "client_id": "262856464817-pp2rfqjkiq4g1l19k2qdi3sps01rm1e9.apps.googleusercontent.com",
+          "client_id": "968907904872-qimb8v2tonukknue368lirvrrmsn1hal.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC3DB8iMoZRgb8mnuhdtGKBCObY0yM7-iI"
+          "current_key": "AIzaSyCsvZS3eSWVtZAJEvGikxIcCdt9sqF5xwo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "262856464817-pp2rfqjkiq4g1l19k2qdi3sps01rm1e9.apps.googleusercontent.com",
+              "client_id": "968907904872-qimb8v2tonukknue368lirvrrmsn1hal.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

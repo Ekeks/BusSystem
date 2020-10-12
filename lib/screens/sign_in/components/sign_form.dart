@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/Dialog.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/main.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
+import 'package:shop_app/services/auth_service.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -24,8 +28,8 @@ class _SignFormState extends State<SignForm> {
   String password;
   FormType _formType = FormType.login;
   bool remember = false;
+
   final List<String> errors = [];
-  FirebaseUser user;
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -54,25 +58,17 @@ class _SignFormState extends State<SignForm> {
     if (validateAndSave()) {
       try {
         if (_formType == FormType.login) {
-          AuthResult user = (await FirebaseAuth.instance
+          UserCredential user = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: email, password: password));
           print('Signed in: $user');
-        //   if (user ==null){
 
-        //     print("Cannot sign in ");
-        // }
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => CompleteProfileScreen()));
+              builder: (BuildContext context) => LoginSuccessScreen()));
         }
-        // Navigator.of(context).push(MaterialPageRoute(
-        //     builder: (BuildContext context) => LoginSuccessScreen()));
       } catch (e) {
         print('Error: $e');
-
       }
-      
     }
-    
   }
 
   @override
@@ -116,17 +112,27 @@ class _SignFormState extends State<SignForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-            text: "Continue",
+            text: "SignIn",
             press: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 validateAndSubmit();
-                // if all are valid then go to success screen
-                if(user==null){
-                  print('Error signing in');
-                }
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) => CustomDialog(
+                          title: "Failed",
+                          description:
+                              "User does not exist. Kindly create a new account. Hit the signup button",
+                        ));
               }
+
+              //   // if all are valid then go to success screen
+              //   if(user==null){
+              //     print('Error signing in');
+              //   }
+              //   Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+              // }
             },
           ),
         ],

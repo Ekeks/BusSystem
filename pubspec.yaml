@@ -30,8 +30,8 @@ dependencies:
   # if you are using latest flutter please update your flutter_svg package to ^0.18.*
   flutter_svg: ^0.18.0 # help us to use SVG in our app
   provider: ^4.3.1 # for State management
-  firebase_auth: ^0.16.0
-  firebase_core: ^0.4.4
+  firebase_auth: ^0.18.0+1
+  firebase_core: ^0.5.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +50,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

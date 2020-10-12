@@ -14,13 +14,13 @@ class SearchField extends StatelessWidget {
       width: SizeConfig.screenWidth * 0.6,
       decoration: BoxDecoration(
         color: kSecondaryColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(9),
       ),
       child: TextField(
         onChanged: (value) => print(value),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20),
+                horizontal: getProportionateScreenWidth(10),
                 vertical: getProportionateScreenWidth(9)),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
